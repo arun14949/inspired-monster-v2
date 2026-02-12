@@ -32,3 +32,4 @@ yarn-error.log*
 # environment files with sensitive credentials
 .env.development
 .env.production
+.vercel
