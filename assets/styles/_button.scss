@@ -1,0 +1,164 @@
+.btn {
+  padding: 1.5rem 1rem;
+  color: white;
+  display: inline-block;
+  align-items: center;
+  box-sizing: border-box;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 120%;
+  text-align: center;
+  background: $btn-base;
+  outline: none;
+  border: none;
+  max-width: 320px;
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.6s ease;
+  &.btn-full-width {
+    width: 100%;
+  }
+
+  &.whatsapp-btn,
+  &.contact-submit,
+  &.resume {
+    min-width: min(100%, 370px);
+  }
+
+  &.contact-submit:disabled {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &:hover {
+    background: $btn-hover;
+  }
+  &:active {
+    background: $btn-active;
+  }
+  &:disabled {
+    color: $text-disabled;
+    background: $btn-disabled;
+    cursor: not-allowed;
+  }
+  .icon {
+    position: absolute;
+    top: 12px;
+    &.prepend {
+      left: 16px;
+      &.whatsapp {
+        top: 20px;
+        left: 24px;
+      }
+      &.dribble {
+        top: 16px;
+        left: 16px;
+        span {
+          width: 40px !important;
+          height: 40px !important;
+        }
+      }
+    }
+  }
+
+  .btn__loader {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+    border-top: 3px solid rgba(108, 108, 108, 0.3);
+    border-radius: 50%;
+    display: block;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+#lottie {
+  cursor: pointer;
+  svg {
+    g {
+      g {
+        g {
+          &:last-child {
+            padding: 100px;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+// X-Small devices (portrait phones, less than 576px)
+// No media query for `xs` since this is the default in Bootstrap
+
+// Small devices (landscape phones, 576px and up)
+@media (max-width: 576px) {
+  .btn {
+    padding: 1.25rem 1rem;
+    font-size: 0.875rem;
+    min-width: 100%;
+    &.whatsapp-btn,
+    &.contact-submit,
+    &.resume {
+      min-width: 312px;
+      width: 100%;
+      max-width: unset;
+    }
+    .icon {
+      position: absolute;
+      top: 12px;
+      &.prepend {
+        left: 12px;
+        &.whatsapp {
+          top: 18px;
+          left: 16px;
+          span {
+            width: 20px !important;
+            height: 20px !important;
+          }
+        }
+        &.dribble {
+          top: 12px;
+          left: 12px;
+          span {
+            width: 32px !important;
+            height: 32px !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+// // Medium devices (tablets, 768px and up)
+// @media (min-width: 768px) { ... }
+
+// // Large devices (desktops, 992px and up)
+// @media (min-width: 992px) { ... }
+
+// // X-Large devices (large desktops, 1200px and up)
+// @media (min-width: 1200px) { ... }
+
+// // XX-Large devices (larger desktops, 1400px and up)
+// @media (min-width: 1400px) { ... }
+
+@-webkit-keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

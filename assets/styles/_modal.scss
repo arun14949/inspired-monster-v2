@@ -1,0 +1,120 @@
+.modal-base {
+  top: 40%;
+  position: relative;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  opacity: 0;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  transform: scale(0.8) translateX(-50%);
+  &:focus {
+    outline: none;
+  }
+  &.spotify {
+    background-color: #212121;
+    box-shadow: 2px 15px 25px rgba(0, 0, 0, 0.25);
+    border-radius: 14px;
+    width: 324px;
+    height: 360px;
+    top: 40%;
+    left: -9%;
+    iframe {
+      border: none !important;
+      border-radius: 8px;
+    }
+  }
+}
+
+.modal-base_after-open {
+  opacity: 1;
+  transform: scale(1) translateX(-50%);
+}
+
+.modal-base_before-close {
+  transform: scale(0.2) translateX(-80%);
+  opacity: 0;
+}
+.modal-credit-base {
+  top: 50%;
+  left: 50%;
+  position: relative;
+  background-color: #fefefe;
+  padding: 0;
+  border: 1px solid #888;
+  width: 50%;
+  opacity: 0;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  transform: scale(0.8) translate(-50%, -50%);
+  &:focus {
+    outline: none;
+  }
+}
+
+.modal-credit-base_after-open {
+  opacity: 1;
+  transform: scale(1) translate(-50%, -50%);
+}
+
+.modal-credit-base_before-close {
+  transform: scale(0.2) translate(-130%, -135%);
+  opacity: 0;
+}
+
+.overlay-base {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(66, 66, 66, 0.5);
+  opacity: 0;
+  transition: all 0.3s ease-out;
+  z-index: 4;
+}
+
+.overlay-base_after-open {
+  opacity: 1;
+}
+
+.overlay-base_before-close {
+  opacity: 0;
+}
+
+// Credits
+
+// Small devices (landscape phones, 576px and up)
+@media (max-width: 576px) {
+  .modal-base {
+    &.spotify {
+      top: 20%;
+      left: 50%;
+      margin: unset;
+    }
+  }
+  .modal-base_before-close {
+    transform: scale(0.2) translateX(-80%);
+    opacity: 0;
+  }
+  .modal-credit-base {
+    top: unset;
+    position: absolute;
+    height: 500px;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    opacity: 1;
+    transform: translateY(120px);
+  }
+
+  .modal-credit-base_after-open {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+
+  .modal-credit-base_before-close {
+    transform: translateY(120px);
+    opacity: 1;
+  }
+}

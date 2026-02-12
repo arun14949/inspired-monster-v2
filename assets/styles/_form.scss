@@ -1,0 +1,104 @@
+.form-group {
+  position: relative;
+  display: flex;
+
+  .floating-label {
+    position: absolute;
+    left: 0;
+    top: 0;
+    pointer-events: none;
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 23px;
+    color: $text-secondary;
+    background-color: white;
+    transform: translate(16px, 16px);
+    transition: transform 0.2s ease;
+  }
+
+  input,
+  textarea {
+    padding: 1rem;
+    outline: none;
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: $text-primary;
+    border: 2px solid $border;
+    font-family: $font-sans;
+    width: 100%;
+    &:focus,
+    &:valid {
+      border-color: #212121;
+    }
+    &:focus ~ .floating-label,
+    &:valid ~ .floating-label {
+      transform: translate(8px, -16px);
+      padding: 8px;
+      font-size: 0.875rem;
+      font-weight: 400;
+      line-height: 16px;
+      color: $text-primary;
+    }
+    &.error {
+      border-color: $monster-red;
+      &:focus ~ .floating-label,
+      &:valid ~ .floating-label {
+        color: $monster-red;
+      }
+    }
+    &.need-validation {
+      &:focus,
+      &:valid {
+        border-color: #212121;
+      }
+
+      &:invalid:not(:placeholder-shown) {
+        border-color: $monster-red;
+      }
+      &:invalid:not(:placeholder-shown) ~ span {
+        display: block;
+      }
+      &:invalid:not(:placeholder-shown) ~ .floating-label {
+        transform: translate(8px, -16px);
+        padding: 8px;
+        font-size: 0.875rem;
+        font-weight: 400;
+        line-height: 16px;
+        color: $monster-red;
+      }
+    }
+  }
+  span.hint {
+    position: absolute;
+    left: 0;
+    bottom: -18px;
+    font-weight: 400;
+    font-size: 0.75rem;
+    line-height: 120%;
+    display: none;
+    color: $text-secondary;
+    &.error {
+      color: $monster-red;
+    }
+    &.error.custom {
+      color: $monster-red;
+      display: block;
+    }
+  }
+}
+// Small devices (landscape phones, 576px and up)
+@media (max-width: 576px) {
+  .form-group {
+    .floating-label {
+      font-size: 0.875rem;
+    }
+    input,
+    textarea {
+      font-size: 0.875rem;
+      &:focus ~ .floating-label,
+      &:valid ~ .floating-label {
+        font-size: 0.75rem;
+      }
+    }
+  }
+}
