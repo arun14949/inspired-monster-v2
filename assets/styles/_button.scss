@@ -45,15 +45,14 @@
   }
   .icon {
     position: absolute;
-    top: 12px;
+    top: 50%;
+    transform: translateY(-50%);
     &.prepend {
       left: 16px;
       &.whatsapp {
-        top: 20px;
         left: 24px;
       }
       &.dribble {
-        top: 16px;
         left: 16px;
         span {
           width: 40px !important;
@@ -109,11 +108,11 @@
     }
     .icon {
       position: absolute;
-      top: 12px;
+      top: 50%;
+      transform: translateY(-50%);
       &.prepend {
         left: 12px;
         &.whatsapp {
-          top: 18px;
           left: 16px;
           span {
             width: 20px !important;
@@ -121,7 +120,6 @@
           }
         }
         &.dribble {
-          top: 12px;
           left: 12px;
           span {
             width: 32px !important;

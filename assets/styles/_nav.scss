@@ -16,6 +16,9 @@
       font-family: $font-sans;
       display: flex;
       justify-content: space-evenly;
+      a {
+        text-decoration: none;
+      }
       .nav-item {
         display: flex;
         position: relative;
