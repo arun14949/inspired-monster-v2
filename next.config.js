@@ -1,6 +1,7 @@
 module.exports = {
   images: {
     domains: ["cdn.dribbble.com", "firebasestorage.googleapis.com"],
+    unoptimized: true,
   },
   swcMinify: false,
   env: {
