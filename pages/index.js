@@ -69,7 +69,7 @@ export default function Home() {
           <div className="col-sm">
             <h1 className="title-1 secondary slide-up">
               Hey there, I am <b>Arun Sajeev</b>, a Product Designer based in
-              Kochi. I specialize in creating experiences that are
+              Kochi, I specialise in creating experiences that are
               intuitive, easy to use and visually pleasing. Let&apos;s work
               together to create something truly amazing.
             </h1>

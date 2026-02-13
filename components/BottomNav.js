@@ -43,7 +43,7 @@ const BottomNav = () => {
         activeIcon={AboutActiveIcon}
         active={router.pathname === "/about-me"}
       >
-        About
+        About Me
       </NavItem>
     </div>
   );
