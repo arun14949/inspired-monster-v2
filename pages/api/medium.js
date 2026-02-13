@@ -39,6 +39,17 @@ function removeTrackingPixels(html) {
     .replace(/<img[^>]*width="1"[^>]*>/gi, "");
 }
 
+function removeMediumFooter(html) {
+  if (!html) return html;
+  // Find the last paragraph containing the Medium footer text
+  const footerIndex = html.lastIndexOf("was originally published in");
+  if (footerIndex === -1) return html;
+  const before = html.substring(0, footerIndex);
+  const pStart = before.lastIndexOf("<p");
+  if (pStart === -1) return html;
+  return html.substring(0, pStart).trim();
+}
+
 function stripHtml(html) {
   if (!html) return "";
   return html.replace(/<[^>]*>/g, "").trim();
@@ -64,7 +75,7 @@ export default async function handler(req, res) {
         title: item.title,
         thumbnail,
         description: stripHtml(item.contentSnippet || item.content || ""),
-        content: removeTrackingPixels(contentEncoded),
+        content: removeMediumFooter(removeTrackingPixels(contentEncoded)),
         link: item.link,
         pubDate: item.pubDate,
         categories: item.categories || [],

@@ -327,6 +327,7 @@
   .navbar {
     height: 56px;
     border: none;
+    border-top: 1px solid $nav-border;
     border-bottom: 1px solid $nav-border;
     .container {
       padding: 0px 1.5rem;

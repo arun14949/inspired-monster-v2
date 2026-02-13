@@ -1,11 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { getMediumArticles } from "../../api/works";
 import Shimmer from "../../components/Shimmer";
 import ImageLightbox from "../../components/ImageLightbox";
-import Scrollbar from "smooth-scrollbar";
 
 const WorkDetail = () => {
   const router = useRouter();
@@ -13,7 +12,6 @@ const WorkDetail = () => {
   const [article, setArticle] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [lightboxSrc, setLightboxSrc] = useState(null);
-  const contentRef = useRef();
   const bodyRef = useRef();
 
   useEffect(() => {
@@ -48,27 +46,13 @@ const WorkDetail = () => {
     };
   }, [article, handleImageClick]);
 
-  useEffect(() => {
-    if (!contentRef.current) return;
-    const Scroll = Scrollbar.init(contentRef.current, {
-      enable: true,
-      effect: "bounce",
-      damping: 0.05,
-      maxOverscroll: 150,
-      alwaysShowTracks: true,
-      glowColor: "#fff",
-    });
-    Scroll.track.xAxis.element.remove();
-    Scroll.track.yAxis.element.remove();
-  }, [contentRef, article]);
-
   return (
     <React.Fragment>
       <Head>
         <title>Inspired Monster | {article?.title || "Works"}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className="work-detail" ref={contentRef}>
+      <section className="work-detail">
         <div className="work-detail__container">
           {isLoading && (
             <div className="work-detail__loading">

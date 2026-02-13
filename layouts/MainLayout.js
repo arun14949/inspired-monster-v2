@@ -35,6 +35,7 @@ const MainLayout = ({ children }) => {
   return (
     <React.Fragment>
       <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="og:title" content="Inspired Monster" />
         <meta
           name="og:description"
@@ -56,18 +57,7 @@ const MainLayout = ({ children }) => {
               intuitive, easy to use and visually pleasing."
         />
       </Head>
-      {isWorkDetail ? (
-        <>
-          <div className="work-detail-header-mobile">
-            <WorkDetailHeader />
-          </div>
-          <div className="work-detail-header-desktop">
-            <Header />
-          </div>
-        </>
-      ) : (
-        <Header />
-      )}
+      {isWorkDetail ? <WorkDetailHeader /> : <Header />}
       <main className={classNames(isNeedMorePadding && "extra-space")}>
         {children}
       </main>

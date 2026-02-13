@@ -1,13 +1,13 @@
 .works {
   padding: 48px 60px 0px 60px;
-  height: calc(100vh - 134px);
-  max-width: 800px;
+  height: calc(100vh - 80px);
+  max-width: 1280px;
   margin: 0px auto;
 
   .works-list {
     display: flex;
-    flex-direction: column;
-    gap: 24px;
+    flex-wrap: wrap;
+    gap: 40px;
     padding-bottom: 60px;
   }
 
@@ -16,14 +16,16 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+    width: 360px;
 
     &__thumbnail {
-      width: 100%;
+      width: 360px;
+      height: 270px;
+      flex-shrink: 0;
       position: relative;
       overflow: hidden;
       border: 1px solid $grey;
       box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1);
-      aspect-ratio: 16 / 9;
 
       img {
         width: 100%;
@@ -44,7 +46,9 @@
     }
 
     &__placeholder {
-      aspect-ratio: 16 / 9;
+      width: 360px;
+      height: 270px;
+      flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -67,10 +71,10 @@
     &__title {
       font-family: $font-serif;
       font-weight: 700;
-      font-size: 1.25rem;
-      line-height: 150%;
+      font-size: 1.5rem;
+      line-height: 120%;
       color: $text-primary;
-      letter-spacing: 0.16px;
+      letter-spacing: 0.24px;
       margin: 0;
     }
 
@@ -83,13 +87,6 @@
       letter-spacing: 0.14px;
       margin: 0;
     }
-
-    &__divider {
-      width: 100%;
-      height: 1px;
-      background-color: $grey;
-    }
-
   }
 
   .shimmer-text {
@@ -116,26 +113,21 @@
   }
 }
 
-// Header wrappers for work detail page
-.work-detail-header-mobile {
-  display: none;
-}
-.work-detail-header-desktop {
-  display: block;
-}
 
 // Back header for work detail
 .work-detail-header {
-  height: 56px;
+  height: 80px;
   width: 100%;
   border-bottom: 1px solid $nav-border;
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 0 24px;
+  padding: 0 60px;
   cursor: pointer;
   background: white;
   z-index: 2;
+  position: sticky;
+  top: 0;
 
   svg {
     width: 24px;
@@ -157,17 +149,18 @@
 ///
 .work-detail {
   padding: 24px 60px 0px 60px;
-  height: calc(100vh - 58px);
+  height: calc(100vh - 82px);
   width: 100%;
   max-width: 800px;
   margin: 0px auto;
   box-sizing: border-box;
   overflow-x: hidden;
+  overflow-y: auto;
 
   &__container {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 12px;
     padding-bottom: 60px;
     width: 100%;
     box-sizing: border-box;
@@ -176,7 +169,7 @@
   &__title {
     font-family: $font-serif;
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     line-height: 110%;
     color: $text-primary;
     letter-spacing: 0.24px;
@@ -186,7 +179,7 @@
   &__meta {
     font-family: $font-sans;
     font-weight: 400;
-    font-size: 0.875rem;
+    font-size: 1rem;
     color: $text-secondary;
     letter-spacing: 0.14px;
     margin: 0;
@@ -199,7 +192,7 @@
   // Figma type scale for Medium article content
   &__body {
     font-family: $font-serif;
-    font-size: 1rem;
+    font-size: 1.125rem;
     font-weight: 400;
     line-height: 150%;
     color: $text-primary;
@@ -207,12 +200,18 @@
     text-align: left;
     word-break: break-word;
     overflow-wrap: break-word;
+    max-width: 100%;
+
+    * {
+      max-width: 100%;
+      box-sizing: border-box;
+    }
 
     // Title 2 (h3 in Medium RSS)
     h3 {
       font-family: $font-serif;
       font-weight: 700;
-      font-size: 1.25rem;
+      font-size: 1.5rem;
       line-height: 120%;
       letter-spacing: 0.2px;
       color: $text-primary;
@@ -223,7 +222,7 @@
     h4 {
       font-family: $font-serif;
       font-weight: 700;
-      font-size: 1.125rem;
+      font-size: 1.25rem;
       line-height: 130%;
       letter-spacing: 0.18px;
       color: $text-primary;
@@ -258,26 +257,26 @@
 
     figure {
       margin: 1.5rem 0;
+      padding: 0;
       img {
         width: 100%;
         margin: 0;
       }
       figcaption {
         font-family: $font-sans;
-        font-size: 0.875rem;
+        font-size: 1rem;
         color: $text-secondary;
         text-align: left;
         margin-top: 0.25rem;
       }
     }
 
-    // Embedded videos (YouTube, etc.)
+    // Embedded content (YouTube, Figma, etc.)
     iframe {
       width: 100%;
       max-width: 100%;
-      aspect-ratio: 16 / 9;
-      height: auto;
       border: none;
+      min-height: 400px;
     }
 
     // Link Text
@@ -315,14 +314,14 @@
       padding: 1rem;
       overflow-x: auto;
       border: 1px solid $grey;
-      font-size: 0.875rem;
+      font-size: 1rem;
       line-height: 160%;
       margin: 1rem 0;
     }
 
     code {
       font-family: "IBM Plex Mono", monospace;
-      font-size: 0.875rem;
+      font-size: 1rem;
       background: $light-grey;
       padding: 2px 4px;
     }
@@ -332,7 +331,7 @@
     display: inline-block;
     font-family: $font-sans;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 1.125rem;
     color: $monster-red;
     text-decoration: none;
     padding: 12px 24px;
@@ -367,20 +366,27 @@
   align-items: center;
   justify-content: center;
 
-  &__close {
+  &__close-btn {
     position: absolute;
-    top: 16px;
-    right: 16px;
+    bottom: 32px;
+    left: 24px;
+    right: 24px;
+    width: calc(100% - 48px);
+    max-width: unset;
+    display: block;
     z-index: 1001;
-    background: none;
-    border: none;
+    background: transparent;
     color: white;
-    cursor: pointer;
-    padding: 8px;
+    border: 2px solid white;
 
-    svg {
-      width: 28px;
-      height: 28px;
+    &:hover {
+      background: white;
+      color: $text-primary;
+    }
+
+    &:active {
+      background: white;
+      color: $text-primary;
     }
   }
 
@@ -407,6 +413,32 @@
 @media (max-width: 768px) {
   .works {
     padding: 24px 24px 0px 24px;
+    overflow-x: hidden;
+
+    .works-list {
+      gap: 24px;
+    }
+
+    .work-item {
+      width: 100%;
+
+      &__thumbnail {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+      }
+
+      &__placeholder {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+      }
+
+      &__title {
+        font-size: 1.25rem;
+        letter-spacing: 0.16px;
+      }
+    }
   }
   .work-detail {
     padding: 24px 24px 0px 24px;
@@ -414,22 +446,76 @@
 }
 
 @media (max-width: 576px) {
-  .work-detail-header-mobile {
-    display: block;
-  }
-  .work-detail-header-desktop {
-    display: none;
-  }
   .works {
     padding: 24px;
     height: auto;
+
+    .works-list {
+      gap: 0;
+    }
+
+    .work-item {
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid $grey;
+
+      &:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
 
     .work-item__title {
       font-size: 1rem;
     }
   }
+  .work-detail-header {
+    height: 56px;
+    padding: 0 24px;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
   .work-detail {
     padding: 24px;
+    padding-top: 81px;
     height: auto;
+
+    &__title {
+      font-size: 1.5rem;
+    }
+
+    &__meta {
+      font-size: 0.875rem;
+    }
+
+    &__body {
+      font-size: 1rem;
+
+      h3 {
+        font-size: 1.25rem;
+      }
+
+      h4 {
+        font-size: 1.125rem;
+      }
+
+      figure figcaption {
+        font-size: 0.875rem;
+      }
+
+      pre {
+        font-size: 0.875rem;
+      }
+
+      code {
+        font-size: 0.875rem;
+      }
+    }
+
+    &__medium-link {
+      font-size: 1rem;
+    }
   }
 }

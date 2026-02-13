@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
-import Credits from "../../components/Credits";
+import React, { useEffect, useLayoutEffect, useRef } from "react";
+
 import InstaThumbnail1 from "../../assets/images/insta_1.jpg";
 import InstaThumbnail2 from "../../assets/images/insta_2.jpg";
 import InstaThumbnail3 from "../../assets/images/insta_3.jpg";
@@ -12,7 +12,6 @@ import InstaWhiteIcon from "../../assets/images/insta_white_1.png";
 import Slider from "../../components/Slder";
 
 const AboutMe = () => {
-  const [showCredits, setShowCredits] = useState(false);
   const contentRef = useRef(null);
   const footerRef = useRef(null);
   const reelRef = useRef(null);
@@ -47,14 +46,6 @@ const AboutMe = () => {
       // reelRef.current.removeEventListener("wheel", horizontalScroll);
     };
   }, [reelRef]);
-
-  const handleOnShowCreditsClick = () => {
-    setShowCredits(true);
-  };
-
-  const onCreditsClose = () => {
-    setShowCredits(false);
-  };
 
   return (
     <React.Fragment>
@@ -215,8 +206,7 @@ const AboutMe = () => {
               </div>
               <div className="footer" ref={footerRef}>
                 <p>
-                  © {new Date().getFullYear()} Inspired Monster ·
-                  <span onClick={handleOnShowCreditsClick}> Credits</span>
+                  © {new Date().getFullYear()} Inspired Monster
                 </p>
               </div>
             </div>
@@ -251,8 +241,7 @@ const AboutMe = () => {
                 </a>
                 <div className="footer">
                   <p>
-                    © {new Date().getFullYear()} Inspired Monster ·
-                    <span onClick={handleOnShowCreditsClick}> Credits</span>
+                    © {new Date().getFullYear()} Inspired Monster
                   </p>
                 </div>
               </div>
@@ -260,7 +249,6 @@ const AboutMe = () => {
           </div>
         </div>
       </section>
-      <Credits open={showCredits} onClose={onCreditsClose} />
     </React.Fragment>
   );
 };
