@@ -1,15 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import Scrollbar from "smooth-scrollbar";
-import { getShots } from "../../api/works";
+import { getMediumArticles } from "../../api/works";
 import Shimmer from "../../components/Shimmer";
 
 const Works = () => {
   const router = useRouter();
-  const [dribbleWorks, setDribbleWorks] = useState([]);
+  const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const workRef = useRef();
 
@@ -17,8 +16,8 @@ const Works = () => {
     const fetchWorks = async () => {
       try {
         setIsLoading(true);
-        const response = await getShots();
-        if (response) setDribbleWorks(response.data);
+        const response = await getMediumArticles();
+        if (response) setArticles(response.data);
       } catch (error) {
         console.log(error);
       } finally {
@@ -42,54 +41,56 @@ const Works = () => {
     Scroll.track.yAxis.element.remove();
   }, [workRef]);
 
-  const handleOnWorkClick = (id) => router.push(`/works/${id}/`);
+  const handleArticleClick = (slug) => {
+    router.push(`/works/${slug}`);
+  };
 
   return (
     <React.Fragment>
       <Head>
-        <title>Inspired Monster | About me</title>
+        <title>Inspired Monster | Works</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className="works" ref={workRef}>
-        <div className="container">
+        <div className="works-list">
           {!isLoading &&
-            dribbleWorks?.map((work, index) => (
-              <div
-                className="item"
-                key={work.id + index}
-                onClick={() => handleOnWorkClick(work.id)}
-                style={
-                  (index + 1) % 10 === 0
-                    ? {
-                        gridRowStart: Math.floor((index + 1) / 10) * 4 - 1,
-                      }
-                    : {}
-                }
-              >
-                <Image
-                  src={work.images?.two_x}
-                  alt={work.title}
-                  width="100%"
-                  height="100%"
-                  layout="fill"
-                />
-              </div>
+            articles?.map((article, index) => (
+              <React.Fragment key={article.slug}>
+                <div
+                  className="work-item"
+                  onClick={() => handleArticleClick(article.slug)}
+                >
+                  <div className="work-item__thumbnail">
+                    {article.thumbnail ? (
+                      <img src={article.thumbnail} alt={article.title} />
+                    ) : (
+                      <div className="work-item__placeholder">
+                        <span>{article.title}</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="work-item__info">
+                    <h3 className="work-item__title">{article.title}</h3>
+                    <p className="work-item__meta">
+                      {article.readingTime} mins read
+                    </p>
+                  </div>
+                </div>
+                {index < articles.length - 1 && (
+                  <div className="work-item__divider" />
+                )}
+              </React.Fragment>
             ))}
           {isLoading &&
-            new Array(15).fill("")?.map((work, index) => (
-              <div
-                className="item"
-                key={"shimmer" + index}
-                onClick={() => handleOnWorkClick(work.id)}
-                style={
-                  (index + 1) % 10 === 0
-                    ? {
-                        gridRowStart: Math.floor((index + 1) / 10) * 4 - 1,
-                      }
-                    : {}
-                }
-              >
-                <Shimmer />
+            new Array(3).fill("").map((_, index) => (
+              <div className="work-item" key={"shimmer" + index}>
+                <div className="work-item__thumbnail">
+                  <Shimmer />
+                </div>
+                <div className="work-item__info">
+                  <div className="shimmer-text" />
+                  <div className="shimmer-text short" />
+                </div>
               </div>
             ))}
         </div>

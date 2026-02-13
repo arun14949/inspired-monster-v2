@@ -3,8 +3,13 @@ import Head from "next/head";
 import React, { useEffect, useRef, useState } from "react";
 import BottomNav from "../components/BottomNav";
 import Header from "../components/Header";
+import WorkDetailHeader from "../components/WorkDetailHeader";
+import { useRouter } from "next/router";
 
 const MainLayout = ({ children }) => {
+  const router = useRouter();
+  const isWorkDetail = router.pathname === "/works/[workId]";
+
   const [isNeedMorePadding, setIsNeedMorePadding] = useState(false);
   const initialHeight = useRef();
   const innerWidth = useRef();
@@ -51,7 +56,18 @@ const MainLayout = ({ children }) => {
               intuitive, easy to use and visually pleasing."
         />
       </Head>
-      <Header />
+      {isWorkDetail ? (
+        <>
+          <div className="work-detail-header-mobile">
+            <WorkDetailHeader />
+          </div>
+          <div className="work-detail-header-desktop">
+            <Header />
+          </div>
+        </>
+      ) : (
+        <Header />
+      )}
       <main className={classNames(isNeedMorePadding && "extra-space")}>
         {children}
       </main>
@@ -64,7 +80,7 @@ const MainLayout = ({ children }) => {
           than sorry.&apos;
         </p>
       </section>
-      <BottomNav />
+      {!isWorkDetail && <BottomNav />}
     </React.Fragment>
   );
 };

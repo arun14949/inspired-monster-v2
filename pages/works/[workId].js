@@ -1,31 +1,29 @@
-import React, { useEffect, useMemo, useState } from "react";
+/* eslint-disable @next/next/no-img-element */
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { getShot, getShots } from "../../api/works";
-import SliderControl from "../../components/SliderControl";
-import Image from "next/image";
-import DribbleIcon from "../../assets/images/dribble_cta.svg";
-import Button from "../../components/Button";
-import classNames from "classnames";
-import BottomSliderControl from "../../components/BottomSliderControl";
+import { getMediumArticles } from "../../api/works";
 import Shimmer from "../../components/Shimmer";
+import ImageLightbox from "../../components/ImageLightbox";
+import Scrollbar from "smooth-scrollbar";
 
-const WorkLanding = () => {
-  const { query, push, back, replace } = useRouter();
-
-  const [dribbleWorks, setDribbleWorks] = useState([]);
-  const [activeWorkIndex, setActiveWorkIndex] = useState();
+const WorkDetail = () => {
+  const router = useRouter();
+  const { workId } = router.query;
+  const [article, setArticle] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-
-  const [isActive, setActive] = useState(false);
+  const [lightboxSrc, setLightboxSrc] = useState(null);
+  const contentRef = useRef();
+  const bodyRef = useRef();
 
   useEffect(() => {
-    const fetchWorks = async () => {
+    const fetchArticle = async () => {
       try {
         setIsLoading(true);
-        const response = await getShots();
+        const response = await getMediumArticles();
         if (response) {
-          setDribbleWorks(response.data);
+          const found = response.data.find((a) => a.slug === workId);
+          setArticle(found || null);
         }
       } catch (error) {
         console.log(error);
@@ -33,126 +31,81 @@ const WorkLanding = () => {
         setIsLoading(false);
       }
     };
-    fetchWorks();
+    if (workId) fetchArticle();
+  }, [workId]);
+
+  const handleImageClick = useCallback((e) => {
+    const src = e.target.src;
+    if (src) setLightboxSrc(src);
   }, []);
 
   useEffect(() => {
-    if (dribbleWorks.length <= 0) return;
-    if (!query) return;
-    setActiveWorkIndex(
-      dribbleWorks.findIndex((work) => work.id === parseInt(query.workId))
-    );
-  }, [query, dribbleWorks]);
+    if (!bodyRef.current) return;
+    const images = bodyRef.current.querySelectorAll("img");
+    images.forEach((img) => img.addEventListener("click", handleImageClick));
+    return () => {
+      images.forEach((img) => img.removeEventListener("click", handleImageClick));
+    };
+  }, [article, handleImageClick]);
 
-  const onMore = () => {
-    replace("/works/");
-  };
-
-  const handleNext = () => {
-    const nextWork =
-      dribbleWorks[Math.min(activeWorkIndex + 1, dribbleWorks.length - 1)];
-    if (nextWork) push(`/works/${nextWork.id}`);
-  };
-  const handlePrev = () => {
-    const prevWork = dribbleWorks[Math.max(activeWorkIndex - 1, 0)];
-    if (prevWork) push(`/works/${prevWork.id}`);
-  };
+  useEffect(() => {
+    if (!contentRef.current) return;
+    const Scroll = Scrollbar.init(contentRef.current, {
+      enable: true,
+      effect: "bounce",
+      damping: 0.05,
+      maxOverscroll: 150,
+      alwaysShowTracks: true,
+      glowColor: "#fff",
+    });
+    Scroll.track.xAxis.element.remove();
+    Scroll.track.yAxis.element.remove();
+  }, [contentRef, article]);
 
   return (
     <React.Fragment>
       <Head>
-        <title>Inspired Monster | About me</title>
+        <title>Inspired Monster | {article?.title || "Works"}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className="work-landing">
-        <div className="row h-100">
-          <div className="col-sm-8">
-            <div className="slider-container">
-              <div className="image-container">
-                {isLoading ? (
-                  <Shimmer />
-                ) : (
-                  dribbleWorks[activeWorkIndex]?.images && (
-                    <Image
-                      className="image"
-                      src={dribbleWorks[activeWorkIndex].images.two_x}
-                      alt={dribbleWorks[activeWorkIndex]?.title}
-                      width="100%"
-                      height="100%"
-                      layout="responsive"
-                    />
-                  )
-                )}
-              </div>
+      <section className="work-detail" ref={contentRef}>
+        <div className="work-detail__container">
+          {isLoading && (
+            <div className="work-detail__loading">
+              <Shimmer />
+            </div>
+          )}
 
-              {/* <div className="slider-switcher">
-                <div
-                  className={classNames(
-                    "switcher-element",
-                    isActive && "active"
-                  )}
-                  onClick={() => setActive((prev) => !prev)}
-                >
-                  {dribbleWorks[activeWorkIndex]?.images && (
-                    <div className="thumbnail">
-                      <Image
-                        className="image"
-                        src={dribbleWorks[activeWorkIndex].images.normal}
-                        alt={dribbleWorks[activeWorkIndex]?.title}
-                        width="100%"
-                        height="100%"
-                        layout="responsive"
-                      />
-                    </div>
-                  )}
-                </div>
-              </div> */}
-            </div>
-          </div>
-          <div className="col-sm-4">
-            <div className="contents">
-              {!isLoading && (
-                <SliderControl
-                  onMoreClick={onMore}
-                  onNext={handleNext}
-                  onPrev={handlePrev}
-                  disableNext={activeWorkIndex === dribbleWorks.length - 1}
-                  disablePrev={activeWorkIndex === 0}
-                />
-              )}
-              <h3>{dribbleWorks[activeWorkIndex]?.title}</h3>
-              {dribbleWorks[activeWorkIndex]?.description && (
-                <div
-                  className="description"
-                  dangerouslySetInnerHTML={{
-                    __html: dribbleWorks[activeWorkIndex]?.description,
-                  }}
-                />
-              )}
-              <div className="mt-4 mt-sm-3">
-                <a
-                  href={dribbleWorks[activeWorkIndex]?.html_url || "#view"}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Button icon={DribbleIcon} variant="dribble" fullwidth>
-                    View in Dribbble
-                  </Button>
-                </a>
-              </div>
-            </div>
-          </div>
+          {!isLoading && article && (
+            <>
+              <h1 className="work-detail__title">{article.title}</h1>
+
+              <div
+                ref={bodyRef}
+                className="work-detail__body"
+                dangerouslySetInnerHTML={{ __html: article.content }}
+              />
+
+              <a
+                href={article.link}
+                target="_blank"
+                rel="noreferrer"
+                className="work-detail__medium-link"
+              >
+                Read on Medium
+              </a>
+            </>
+          )}
         </div>
-        <BottomSliderControl
-          onMoreClick={onMore}
-          onNext={handleNext}
-          onPrev={handlePrev}
-          disableNext={activeWorkIndex === dribbleWorks.length - 1}
-          disablePrev={activeWorkIndex === 0}
-        />
       </section>
+      {lightboxSrc && (
+        <ImageLightbox
+          src={lightboxSrc}
+          onClose={() => setLightboxSrc(null)}
+        />
+      )}
     </React.Fragment>
   );
 };
 
-export default WorkLanding;
+export default WorkDetail;
